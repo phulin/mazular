@@ -27,8 +27,8 @@ while True:
     SURFACE.fill(BG_COLOR)
     for player in PLAYERS:
         position = player.position
-        screen_position = (int(SQ_SIZE * (position[0] + 0.5)),
-                           int(SQ_SIZE * (position[1] + 0.5)))
-        pygame.draw.circle(SURFACE, player.color, screen_position, int(SQ_SIZE * 0.75), 0)
+        screen_position = (int(SQ_SIZE * (position[1] + 0.5)),
+                           int(SQ_SIZE * (position[0] + 0.5)))
+        pygame.draw.circle(SURFACE, player.color, screen_position, int(SQ_SIZE * 0.3))
 
     pygame.display.update()
