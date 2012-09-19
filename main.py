@@ -27,6 +27,7 @@ while True:
     SURFACE.fill(BG_COLOR)
     for player in PLAYERS:
         position = player.position
+        # IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.
         screen_position = (int(SQ_SIZE * (position[1] + 0.5)),
                            int(SQ_SIZE * (position[0] + 0.5)))
         pygame.draw.circle(SURFACE, player.color, screen_position, int(SQ_SIZE * 0.3))

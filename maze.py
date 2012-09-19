@@ -39,6 +39,7 @@ class Maze:
 
         # Our internal representation includes the exterior walls of the maze.
         # The first coordinate gives row, the second column; both are zero-indexed.
+        # NOTE THAT THIS IS THE OPPOSITE OF WHAT PYGAME USES.
         # horiz_walls is an (m + 1) x n matrix giving the locations of horizontal walls
         self.horiz_walls = []
         # vert_walls is an m x (n + 1) matrix giving the locations of vertical walls
