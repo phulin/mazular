@@ -82,3 +82,10 @@ class Maze:
                 self.vert_walls[row][col + 1],
                 self.horiz_walls[row + 1][col],
                 self.vert_walls[row][col]]
+
+    # returns maze width
+    def width(self):
+        return len(self.horiz_walls[0])
+
+    def height(self):
+        return len(self.vert_walls)

@@ -40,6 +40,8 @@ class TestMazeParsing(unittest.TestCase):
         self.maze = Maze(self.maze_repr)
         self.assertEqual(self.horiz_walls, self.maze.horiz_walls)
         self.assertEqual(self.vert_walls, self.maze.vert_walls)
+        self.assertEqual(3, self.maze.width())
+        self.assertEqual(2, self.maze.height())
 
     def test_walls(self):
         self.maze = Maze(self.maze_repr)
