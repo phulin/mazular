@@ -1,9 +1,9 @@
 # Maze class
 # Serialized format:
 # +-+-+-+
-# |   |*|
+# |0  |*|
 # + + + +
-# |*|   |
+# |*|1 2|
 # +-+-+-+
 
 import re
@@ -32,6 +32,7 @@ class Maze:
 
     horiz_regex = re.compile(r"\+([- ]\+)+$")
     vert_regex = re.compile(r"\|([ *][| ])+$")
+    macguf_regex = re.compile(r"[012]")
 
     # Takes string representation of maze, as outlined above
     def __init__(self, maze_repr):
@@ -46,6 +47,8 @@ class Maze:
         self.vert_walls = []
         # list of starting locations; should only contain two
         self.starting_locations = []
+        # list of macguffins; currently 3
+        self.macguffin_locations = []
 
         maze_lines = maze_repr.splitlines()
         for line_num in range(len(maze_lines)):
@@ -60,6 +63,8 @@ class Maze:
                     c = line[col_num]
                     if c is '*':
                         self.starting_locations.append((line_num / 2, col_num / 2))
+                    if macguf_regex.match(c):
+                        self.macguffin_locations[c] = (line_num / 2, col_num / 2)                
                     if col_num % 2 is 0:
                         result.append(c == '|')
                 self.vert_walls.append(result)
