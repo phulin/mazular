@@ -62,7 +62,7 @@ class Maze:
                 for col_num in range(len(line)):
                     c = line[col_num]
                     if c is '*':
-                        self.starting_locations.append((line_num / 2, col_num / 2))
+                        self.starting_locations.append([line_num / 2, col_num / 2])
                     if self.macguf_regex.match(c):
                         self.macguffin_locations[c] = (line_num / 2, col_num / 2)                
                     if col_num % 2 is 0:
