@@ -35,7 +35,7 @@ while True:
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
 						pygame.quit()
-						sys.exit()
+						sys.exit()				
 					if event.key == pygame.K_UP:
                                                 PLAYERS[0].up(MAZE)
                                         if event.key == pygame.K_DOWN:
@@ -52,9 +52,7 @@ while True:
                                                 PLAYERS[1].left(MAZE)
                                         if event.key == pygame.K_d:
                                                 PLAYERS[1].right(MAZE)
-                                        print "horizontal walls: " + str(MAZE.horiz_walls)
-                                        print "vertical walls: " + str(MAZE.vert_walls)
-                                        print "Location: X:" + str(PLAYERS[0].position[1]) + " Y: " + str(PLAYERS[0].position[0])
+                                       
 		SURFACE.fill(BG_COLOR)
 		for player in PLAYERS:
 				position = player.position
