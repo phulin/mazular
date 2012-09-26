@@ -70,7 +70,6 @@ class Maze:
                 self.vert_walls.append(result)
             else:
                 raise Maze.ParseError(line_num)
-
         m = len(self.vert_walls)
         n = len(self.horiz_walls[0])
         for walls in self.horiz_walls:
