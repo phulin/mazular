@@ -1,6 +1,6 @@
 import pygame
 import sys
-from maze import maze_from_file
+from maze import *
 from maze import draw_maze
 from player import Player
 from pygame.locals import *
@@ -13,7 +13,7 @@ PLAYER_COLORS = [(255, 0, 0), (0, 0, 255)]
 #PLAYER_SPRITES = [pygame.image.load(os.path.join('art', 'bla.png')),pygame.image.load(os.path.join('art', 'bla.png'))]
 SQ_SIZE = 50 # pixel size of each square
 WALL_HEIGHT = 10
-WALL_WIDTH = SQ_SIZE
+WALL_WIDTH = SQ_SIZE + WALL_HEIGHT
 MAZE = maze_from_file("bigmaze.txt")
 SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
 PLAYERS = [Player([x for x in MAZE.starting_locations[i]], PLAYER_COLORS[i])
@@ -29,6 +29,13 @@ wall_sprite = pygame.image.load("art/wallfloortiles.png")
 wall_texture = wall_sprite.subsurface( 445, 12, 150, 150)
 wall_vertical_texture = pygame.transform.scale( wall_texture, (WALL_HEIGHT, WALL_WIDTH))
 wall_horizontal_texture = pygame.transform.rotate(wall_vertical_texture, 90)
+fog_sprite = pygame.image.load("art/wallfloortiles.png")
+#fog_texture = fog_sprite.subsurface(733,238,190,190)
+fog_texture = fog_sprite.subsurface(15,238,180,180)
+fog_texture = pygame.transform.scale(fog_texture,(SQ_SIZE,SQ_SIZE));
+floor_sprite = pygame.image.load("art/wallfloortiles.png")
+floor_texture = fog_sprite.subsurface(15,15,180,180)
+floor_texture = pygame.transform.scale(floor_texture,(SQ_SIZE+WALL_HEIGHT,SQ_SIZE+WALL_HEIGHT));
 
 # TODO(phulin): make ticks so we don't use all the CPU!
 while True:
@@ -57,10 +64,12 @@ while True:
                                                 PLAYERS[1].left(MAZE)
                                         if event.key == pygame.K_d:
                                                 PLAYERS[1].right(MAZE)
-					SURFACE.fill(BG_COLOR)
-					draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture);
-					#pygame.display.update()
 		#SURFACE.fill(BG_COLOR)
+		for i in range(MAZE.height()+1):
+			for j in range(MAZE.width()+1):
+				SURFACE.blit(fog_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+		draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture)
+		draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture)
 		for player in PLAYERS:
 				position = player.position
 				# IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.

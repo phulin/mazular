@@ -7,17 +7,28 @@
 # +-+-+-+
 
 import re
+#THIS CHANGES THE VIEW SIZE
+offset = 0
 
 def maze_from_file(filename):
     return Maze(open(filename).read())
 
 def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture):                               
-    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[0],wall_vertical_texture,wall_horizontal_texture);                                                                                
-    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[1],wall_vertical_texture,wall_horizontal_texture);                                        
-                                                                                                                             
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[0],wall_vertical_texture,wall_horizontal_texture);                  
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[1],wall_vertical_texture,wall_horizontal_texture);                                                                                                                             
+def draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture):
+    for i in range(PLAYERS[0].position[0] - offset, PLAYERS[0].position[0] + offset + 1):
+        for j in range(PLAYERS[0].position[1] - offset, PLAYERS[0].position[1] + offset + 1):       
+            if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
+                SURFACE.blit(floor_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+    for i in range(PLAYERS[1].position[0] - offset, PLAYERS[1].position[0] + offset + 1):
+        for j in range(PLAYERS[1].position[1] - offset, PLAYERS[1].position[1] +offset+1):       
+            if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
+                SURFACE.blit(floor_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+    
 def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wall_horizontal_texture):                 
-    for i in range(player.position[0] - 1, player.position[0] + 1):
-        for j in range(player.position[1] - 1, player.position[1] + 1):       
+    for i in range(player.position[0]-offset, player.position[0] + 1+offset):
+        for j in range(player.position[1]-offset, player.position[1] + 1+offset):       
             if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
                 if (MAZE.walls(i,j)[MAZE.TOP]) :
                     SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
