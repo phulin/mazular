@@ -9,10 +9,11 @@ pygame.init()
 
 BG_COLOR = (0, 0, 0)
 PLAYER_COLORS = [(255, 0, 0), (0, 0, 255)]
-SQ_SIZE = 100 # pixel size of each square
+#PLAYER_SPRITES = [pygame.image.load(os.path.join('art', 'bla.png')),pygame.image.load(os.path.join('art', 'bla.png'))]
+SQ_SIZE = 50 # pixel size of each square
 WALL_HEIGHT = 10
 WALL_WIDTH = SQ_SIZE
-MAZE = maze_from_file("maze.txt")
+MAZE = maze_from_file("bigmaze.txt")
 SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
 PLAYERS = [Player([x for x in MAZE.starting_locations[i]], PLAYER_COLORS[i])
 					 for i in range(len(MAZE.starting_locations))]
