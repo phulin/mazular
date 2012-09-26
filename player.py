@@ -6,6 +6,7 @@ class Player:
     color = (255, 255, 255)
     turn_time = 300
     time_till_move = turn_time
+    power_points = 0
     
     def __init__(self, position, color):
         self.position = position
@@ -42,6 +43,7 @@ class Player:
         else:
             self.time_till_move = self.time_till_move - self.clock.get_time()
         self.clock.tick()
+    
 ##    vert_wall_left = (self.position[0], self.position[1])
 ##    vert_wall_right = (self.position[0], self.position[1]+1)
 ##    horiz_wall_top = (self.position[0], self.position[1])
