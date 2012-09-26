@@ -8,7 +8,7 @@
 
 import re
 #THIS CHANGES THE VIEW SIZE
-offset = 0
+offset = 1
 
 def maze_from_file(filename):
     return Maze(open(filename).read())
