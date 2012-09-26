@@ -67,6 +67,7 @@ class Maze:
         maze_repr = maze_repr.strip()
 
         # Our internal representation includes the exterior walls of the maze.
+        # Do not use these externally! Use the walls function.
         # The first coordinate gives row, the second column; both are zero-indexed.
         # NOTE THAT THIS IS THE OPPOSITE OF WHAT PYGAME USES.
         # horiz_walls is an (m + 1) x n matrix giving the locations of horizontal walls

@@ -1,10 +1,11 @@
+from maze import Maze
 import pygame
 
 class Player:
     clock = pygame.time.Clock()
     position = [0, 0]
     #color = (255, 255, 255)
-    direction = "FRONT"
+    direction = Maze.TOP
     number = 0
     turn_time = 300
     time_till_move = turn_time
@@ -14,44 +15,20 @@ class Player:
         self.position = position
         self.number = number
         self.direction = direction
-    def up(self, maze):
-        self.direction = "BACK"
+
+    def move(self, maze, direction):
+        self.direction = direction
         print self.time_till_move - self.clock.get_time()
-        if not maze.horiz_walls[self.position[0]][self.position[1]] and self.clock.get_time()>self.time_till_move:
-            self.position[0] = self.position[0] - 1
+        if self.clock.get_time() > self.time_till_move and not maze.walls(*self.position)[direction]:
+            if direction == Maze.TOP:
+                self.position[0] -= 1
+            elif direction == Maze.RIGHT:
+                self.position[1] += 1
+            elif direction == Maze.BOTTOM:
+                self.position[0] += 1
+            elif direction == Maze.LEFT:
+                self.position[1] -= 1
             self.time_till_move = self.turn_time
         else:
             self.time_till_move = self.time_till_move - self.clock.get_time()
         self.clock.tick()
-    def down(self, maze):
-        self.direction = "FRONT"
-        print self.time_till_move - self.clock.get_time()
-        if not maze.horiz_walls[self.position[0]+1][self.position[1]] and self.clock.get_time()>self.time_till_move:
-            self.position[0] = self.position[0] + 1
-            self.time_till_move = self.turn_time
-        else:
-            self.time_till_move = self.time_till_move - self.clock.get_time()
-        self.clock.tick()   
-    def left(self, maze):
-        self.direction = "LEFT"
-        print self.time_till_move - self.clock.get_time()
-        if not maze.vert_walls[self.position[0]][self.position[1]] and self.clock.get_time()>self.time_till_move:
-            self.position[1] = self.position[1] - 1
-            self.time_till_move = self.turn_time
-        else:
-            self.time_till_move = self.time_till_move - self.clock.get_time()
-        self.clock.tick()
-    def right(self, maze):
-        self.direction = "RIGHT"
-        print self.time_till_move - self.clock.get_time()
-        if not maze.vert_walls[self.position[0]][self.position[1]+1] and self.clock.get_time()>self.time_till_move:
-            self.position[1] = self.position[1] + 1
-            self.time_till_move = self.turn_time
-        else:
-            self.time_till_move = self.time_till_move - self.clock.get_time()
-        self.clock.tick()
-    
-##    vert_wall_left = (self.position[0], self.position[1])
-##    vert_wall_right = (self.position[0], self.position[1]+1)
-##    horiz_wall_top = (self.position[0], self.position[1])
-##    horiz_wall_bottom = (self.position[0]+1, self.position[1])

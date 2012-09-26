@@ -26,7 +26,7 @@ WALL_HEIGHT = 10
 WALL_WIDTH = SQ_SIZE + WALL_HEIGHT
 MAZE = maze_from_file("bigmaze.txt")
 SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
-PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, "FRONT")
+PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.TOP)
 					 for i in range(len(MAZE.starting_locations))]
 
 FONT = pygame.font.SysFont(None, 48)
@@ -47,7 +47,6 @@ floor_sprite = pygame.image.load("art/wallfloortiles.png")
 floor_texture = fog_sprite.subsurface(15,15,180,180)
 floor_texture = pygame.transform.scale(floor_texture,(SQ_SIZE+WALL_HEIGHT,SQ_SIZE+WALL_HEIGHT));
 
-# TODO(phulin): make ticks so we don't use all the CPU!
 while True:
 		for event in pygame.event.get():
 				if event.type is QUIT:
@@ -58,22 +57,22 @@ while True:
 						pygame.quit()
 						sys.exit()
 					print "Win conditions :" + str(MAZE.starting_locations) + " Player 0: " + str(PLAYERS[0].position)
-					if event.key == pygame.K_UP:
-                                                PLAYERS[0].up(MAZE)
-                                        if event.key == pygame.K_DOWN:
-                                                PLAYERS[0].down(MAZE)
-                                        if event.key == pygame.K_LEFT:
-                                                PLAYERS[0].left(MAZE)
-                                        if event.key == pygame.K_RIGHT:
-                                                PLAYERS[0].right(MAZE)
-                                        if event.key == pygame.K_w:
-                                                PLAYERS[1].up(MAZE)
-                                        if event.key == pygame.K_s:
-                                                PLAYERS[1].down(MAZE)
-                                        if event.key == pygame.K_a:
-                                                PLAYERS[1].left(MAZE)
-                                        if event.key == pygame.K_d:
-                                                PLAYERS[1].right(MAZE)
+					p1_keymap = {
+							pygame.K_UP: Maze.TOP,
+							pygame.K_DOWN: Maze.BOTTOM,
+							pygame.K_LEFT: Maze.LEFT,
+							pygame.K_RIGHT: Maze.RIGHT
+					}
+					p2_keymap = {
+							pygame.K_w: Maze.TOP,
+							pygame.K_s: Maze.BOTTOM,
+							pygame.K_a: Maze.LEFT,
+							pygame.K_d: Maze.RIGHT
+					}
+					if event.key in p1_keymap:
+						PLAYERS[0].move(MAZE, p1_keymap[event.key])
+					elif event.key in p2_keymap:
+						PLAYERS[1].move(MAZE, p2_keymap[event.key])
 		#SURFACE.fill(BG_COLOR)
 		for i in range(MAZE.height()+1):
 			for j in range(MAZE.width()+1):
@@ -85,13 +84,13 @@ while True:
 				# IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.
 				screen_position = (int(SQ_SIZE * (position[1] + 0.2)), int(SQ_SIZE * (position[0] + 0.2)))
 				#pygame.draw.circle(SURFACE, player.color, screen_position, int(SQ_SIZE * 0.3))
-				if player.direction=="FRONT":
+				if player.direction==Maze.TOP:
 					index = 0
-				elif player.direction=="BACK":
+				elif player.direction==Maze.BOTTOM:
 					index = 1
-				elif player.direction=="LEFT":
+				elif player.direction==Maze.LEFT:
 					index = 2
-				elif player.direction=="RIGHT":
+				elif player.direction==Maze.RIGHT:
 					index = 3
 				else:
 					index=0
@@ -142,9 +141,9 @@ while True:
 						sys.exit()
 
 def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture):
-        draw_maze_single_player(PLAYERS[0]);
+	draw_maze_single_player(PLAYERS[0]);
 	draw_maze_single_player(PLAYERS[1]);
-        pygame.display.update()
+	pygame.display.update()
 
 def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture):
         for i in range(player.position[0] - SQ_SIZE*4, player.position[0] + SQ_SIZE*4):
