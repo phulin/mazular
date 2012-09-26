@@ -11,6 +11,23 @@ import re
 def maze_from_file(filename):
     return Maze(open(filename).read())
 
+def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture):                               
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[0],wall_vertical_texture,wall_horizontal_texture);                                                                                
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[1],wall_vertical_texture,wall_horizontal_texture);                                        
+                                                                                                                             
+def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wall_horizontal_texture):                 
+    for i in range(player.position[0] - 1, player.position[0] + 1):
+        for j in range(player.position[1] - 1, player.position[1] + 1):       
+            if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
+                if (MAZE.walls(i,j)[MAZE.TOP]) :
+                    SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+                if (MAZE.walls(i,j)[MAZE.BOTTOM]) : 
+                    SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,(i+1)*SQ_SIZE,0,0)) 
+                if (MAZE.walls(i,j)[MAZE.RIGHT]) :   
+                    SURFACE.blit(wall_vertical_texture, ((j+1)*SQ_SIZE,i*SQ_SIZE,0,0))
+                if (MAZE.walls(i,j)[MAZE.LEFT]) :
+                    SURFACE.blit(wall_vertical_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+
 class Maze:
     class ParseError:
         def __init__(self, line):
@@ -95,3 +112,4 @@ class Maze:
 
     def height(self):
         return len(self.vert_walls)
+

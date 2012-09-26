@@ -1,6 +1,7 @@
 import pygame
 import sys
 from maze import maze_from_file
+from maze import draw_maze
 from player import Player
 from pygame.locals import *
 
@@ -56,17 +57,21 @@ while True:
                                                 PLAYERS[1].left(MAZE)
                                         if event.key == pygame.K_d:
                                                 PLAYERS[1].right(MAZE)
-
-                                       
-		SURFACE.fill(BG_COLOR)
+					SURFACE.fill(BG_COLOR)
+					draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture);
+					#pygame.display.update()
+		#SURFACE.fill(BG_COLOR)
 		for player in PLAYERS:
 				position = player.position
 				# IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.
 				screen_position = (int(SQ_SIZE * (position[1] + 0.5)), int(SQ_SIZE * (position[0] + 0.5)))
 				pygame.draw.circle(SURFACE, player.color, screen_position, int(SQ_SIZE * 0.3))
+
+		pygame.display.update()
                 
 
 		#logic that draws the walls
+		'''
 		for i in range(MAZE.height()):
 			for j in range(MAZE.width()):
 				if (MAZE.walls(i,j)[MAZE.TOP]) :
@@ -78,6 +83,7 @@ while True:
 				if (MAZE.walls(i,j)[MAZE.LEFT]) :
 					SURFACE.blit(wall_vertical_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
 		pygame.display.update()
+		'''
                 #Win condition
                 if PLAYERS[0].position==MAZE.starting_locations[1]:
                             text = FONT.render('Red Victory!', True, (122, 122, 122))
@@ -104,3 +110,21 @@ while True:
 					if event.key == pygame.K_ESCAPE:
 						pygame.quit()
 						sys.exit()
+
+def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture):
+        draw_maze_single_player(PLAYERS[0]);
+	draw_maze_single_player(PLAYERS[1]);
+        pygame.display.update()
+
+def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture):
+        for i in range(player.position[0] - SQ_SIZE*4, player.position[0] + SQ_SIZE*4):
+            for j in range(player.position[1] - SQ_SIZE*4, player.position[1] + SQ_SIZE*4):
+		if(i >=0 and j >=0):    
+			if (MAZE.walls(i,j)[MAZE.TOP]) :
+				SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+			if (MAZE.walls(i,j)[MAZE.BOTTOM]) :
+				SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,(i+1)*SQ_SIZE,0,0))
+			if (MAZE.walls(i,j)[MAZE.RIGHT]) :
+				SURFACE.blit(wall_vertical_texture, ((j+1)*SQ_SIZE,i*SQ_SIZE,0,0))
+			if (MAZE.walls(i,j)[MAZE.LEFT]) :
+				SURFACE.blit(wall_vertical_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
