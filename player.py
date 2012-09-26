@@ -4,7 +4,7 @@ class Player:
     clock = pygame.time.Clock()
     position = [0, 0]
     color = (255, 255, 255)
-    turn_time = 2000
+    turn_time = 300
     time_till_move = turn_time
     
     def __init__(self, position, color):
