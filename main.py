@@ -84,9 +84,9 @@ while True:
 				# IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.
 				screen_position = (int(SQ_SIZE * (position[1] + 0.2)), int(SQ_SIZE * (position[0] + 0.2)))
 				#pygame.draw.circle(SURFACE, player.color, screen_position, int(SQ_SIZE * 0.3))
-				if player.direction==Maze.TOP:
+				if player.direction==Maze.BOTTOM:
 					index = 0
-				elif player.direction==Maze.BOTTOM:
+				elif player.direction==Maze.TOP:
 					index = 1
 				elif player.direction==Maze.LEFT:
 					index = 2
