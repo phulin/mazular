@@ -44,8 +44,10 @@ MAZE = maze_from_file("bigmaze.txt")
 SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
 PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM)
 					 for i in range(len(MAZE.starting_locations))]
-
+CREATURES = [player for player in PLAYERS]
+print CREATURES
 FONT = pygame.font.SysFont(None, 48)
+
 pygame.key.set_repeat(1, 300)
     
 pygame.display.set_caption('Mazular')
@@ -120,9 +122,9 @@ while True:
 							pygame.K_d: Maze.RIGHT
 					}
 					if event.key in p1_keymap:
-						PLAYERS[0].move(MAZE, p1_keymap[event.key])
+						PLAYERS[0].move(MAZE, p1_keymap[event.key], CREATURES)
 					elif event.key in p2_keymap:
-						PLAYERS[1].move(MAZE, p2_keymap[event.key])
+						PLAYERS[1].move(MAZE, p2_keymap[event.key], CREATURES)
 		#SURFACE.fill(BG_COLOR)
 		for i in range(MAZE.height()+1):
 			for j in range(MAZE.width()+1):
