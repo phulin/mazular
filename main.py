@@ -22,6 +22,22 @@ p2_front = pygame.transform.scale(player_sprite.subsurface(264,261,175,190),(SQ_
 p2_left = pygame.transform.scale(player_sprite.subsurface(695,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
 p2_back = pygame.transform.scale(player_sprite.subsurface(759,261,175,190),(SQ_SIZE-10,SQ_SIZE-10))
 PLAYER_SPRITES=[[p1_front,p1_back,p1_left,p1_right],[p2_front,p2_back,p2_left,p2_right]]
+
+mcguff_sprite = pygame.image.load("art/mcguffs.png")
+pygame.transform.scale(player_sprite.subsurface(7,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
+crown_mg = pygame.transform.scale(mcguff_sprite.subsurface(32,163,56,30),(SQ_SIZE-10,SQ_SIZE-10))
+sceptor_mg = pygame.transform.scale(mcguff_sprite.subsurface(148,121,70,70),(SQ_SIZE-10,SQ_SIZE-10))
+dragon_right = pygame.transform.scale(mcguff_sprite.subsurface(250,147,111,88),(SQ_SIZE-10,SQ_SIZE-10))
+dragon_left = pygame.transform.scale(mcguff_sprite.subsurface(377,147,111,88),(SQ_SIZE-10,SQ_SIZE-10))
+dragon_front = pygame.transform.scale(mcguff_sprite.subsurface(376,252,104,80),(SQ_SIZE-10,SQ_SIZE-10))
+dragon_back = pygame.transform.scale(mcguff_sprite.subsurface(240,244,104,80),(SQ_SIZE-10,SQ_SIZE-10))
+body_front = pygame.transform.scale(mcguff_sprite.subsurface(16,20,88,95),(SQ_SIZE-10,SQ_SIZE-10))
+body_left = pygame.transform.scale(mcguff_sprite.subsurface(137,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
+body_right = pygame.transform.scale(mcguff_sprite.subsurface(232,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
+body_back = pygame.transform.scale(mcguff_sprite.subsurface(328,20,90,95),(SQ_SIZE-10,SQ_SIZE-10))
+mcguffs = [crown_mg,sceptor_mg, [body_front,body_back,body_left,body_right]]
+dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
+
 WALL_HEIGHT = 10
 WALL_WIDTH = SQ_SIZE + WALL_HEIGHT
 MAZE = maze_from_file("bigmaze.txt")
@@ -36,7 +52,7 @@ pygame.display.set_caption('Mazular')
 #load whole sprite, select coordinates for right one
 #unsure if you all want to keep it this way or crop out the actual tile
 wall_sprite = pygame.image.load("art/wallfloortiles.png")
-wall_texture = wall_sprite.subsurface( 445, 12, 150, 150)
+wall_texture = wall_sprite.subsurface( 731, 12, 150, 150)
 wall_vertical_texture = pygame.transform.scale( wall_texture, (WALL_HEIGHT, WALL_WIDTH))
 wall_horizontal_texture = pygame.transform.rotate(wall_vertical_texture, 90)
 fog_sprite = pygame.image.load("art/wallfloortiles.png")
@@ -46,6 +62,21 @@ fog_texture = pygame.transform.scale(fog_texture,(SQ_SIZE,SQ_SIZE));
 floor_sprite = pygame.image.load("art/wallfloortiles.png")
 floor_texture = fog_sprite.subsurface(15,15,180,180)
 floor_texture = pygame.transform.scale(floor_texture,(SQ_SIZE+WALL_HEIGHT,SQ_SIZE+WALL_HEIGHT));
+
+mcguff_sprite = pygame.image.load("art/mcguffs.png")
+pygame.transform.scale(player_sprite.subsurface(7,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
+crown_mg = pygame.transform.scale(mcguff_sprite.subsurface(32,163,56,30),(SQ_SIZE-20,SQ_SIZE-30))
+sceptor_mg = pygame.transform.scale(mcguff_sprite.subsurface(120,150,70,70),(SQ_SIZE-20,SQ_SIZE-20))
+dragon_right = pygame.transform.scale(mcguff_sprite.subsurface(250,147,111,88),(SQ_SIZE-10,SQ_SIZE-10))
+dragon_left = pygame.transform.scale(mcguff_sprite.subsurface(377,147,111,88),(SQ_SIZE-10,SQ_SIZE-10))
+dragon_front = pygame.transform.scale(mcguff_sprite.subsurface(376,252,104,80),(SQ_SIZE-10,SQ_SIZE-10))
+dragon_back = pygame.transform.scale(mcguff_sprite.subsurface(240,244,104,80),(SQ_SIZE-10,SQ_SIZE-10))
+body_front = pygame.transform.scale(mcguff_sprite.subsurface(16,20,88,95),(SQ_SIZE-10,SQ_SIZE-10))
+body_left = pygame.transform.scale(mcguff_sprite.subsurface(137,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
+body_right = pygame.transform.scale(mcguff_sprite.subsurface(232,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
+body_back = pygame.transform.scale(mcguff_sprite.subsurface(328,20,90,95),(SQ_SIZE-10,SQ_SIZE-10))
+mcguffs = [crown_mg,sceptor_mg, [body_front,body_back,body_left,body_right]]
+dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
 
 while True:
 		for event in pygame.event.get():
