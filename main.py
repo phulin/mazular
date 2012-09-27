@@ -42,10 +42,10 @@ WALL_HEIGHT = 10
 WALL_WIDTH = SQ_SIZE + WALL_HEIGHT
 MAZE = maze_from_file("bigmaze.txt")
 SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
-PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM)
+PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM, 'Player ' + str(i))
 					 for i in range(len(MAZE.starting_locations))]
-CREATURES = [player for player in PLAYERS]
-print CREATURES
+MAZE.CREATURES = [player for player in PLAYERS]
+
 FONT = pygame.font.SysFont(None, 48)
 
 pygame.key.set_repeat(1, 300)
@@ -122,9 +122,14 @@ while True:
 							pygame.K_d: Maze.RIGHT
 					}
 					if event.key in p1_keymap:
-						PLAYERS[0].move(MAZE, p1_keymap[event.key], CREATURES)
+						PLAYERS[0].move(MAZE, p1_keymap[event.key])
 					elif event.key in p2_keymap:
-						PLAYERS[1].move(MAZE, p2_keymap[event.key], CREATURES)
+						PLAYERS[1].move(MAZE, p2_keymap[event.key])
+#Summon Shadows
+##					if event.key == pygame.K_SLASH:
+##                                            PLAYERS[0].summon_shadow(PLAYERS[1].sqr_in_front(PLAYERS[1].direction),PLAYERS[1].direction, MAZE)
+##                                        if event.key == pygame.K_r:
+##                                            PLAYERS[1].summon_shadow(PLAYERS[0].sqr_in_front(PLAYERS[0].direction),PLAYERS[0].direction, MAZE) 
 		#SURFACE.fill(BG_COLOR)
 		for i in range(MAZE.height()+1):
 			for j in range(MAZE.width()+1):
@@ -147,7 +152,12 @@ while True:
 				else:
 					index=0
 				SURFACE.blit(PLAYER_SPRITES[player.number][index],screen_position)
-
+                #Move and draw the shadows
+                for i in range(len(MAZE.CREATURES))[2:]:
+                    MAZE.CREATURES[i].navigate(MAZE)
+                    position = MAZE.CREATURES[i].position
+                    screen_position = (int(SQ_SIZE * (position[1] + 0.55)), int(SQ_SIZE * (position[0] + 0.6)))
+                    pygame.draw.circle(SURFACE, (122,122,122), screen_position, int(SQ_SIZE * 0.3))
 		pygame.display.update()
                 
 

@@ -2,23 +2,26 @@ from maze import Maze
 import pygame
 
 class Creature:
-    clock = pygame.time.Clock()
+    clock = clock = pygame.time.Clock()
     position = [0, 0]
     #color = (255, 255, 255)
     direction = Maze.BOTTOM
     number = 0
     turn_time = 300
     time_till_move = turn_time
-    power_points = 0
+    power_points = 10
+    name = ''
     
-    def __init__(self, position, number, direction):
+    def __init__(self, position, number, direction, name):
         self.position = position
         self.number = number
         self.direction = direction
-
-    def move(self, maze, direction, creatures):
+        self.name = name
+        self.clock = pygame.time.Clock()
+        
+    def move(self, maze, direction):
         self.direction = direction
-        if self.clock.get_time() > self.time_till_move and not maze.walls(*self.position)[direction] and not self.collision(creatures,direction):
+        if self.clock.get_time() > self.time_till_move and not maze.walls(*self.position)[direction] and not self.collision(maze.CREATURES,direction):
             if direction == Maze.TOP:
                 self.position[0] -= 1
             elif direction == Maze.RIGHT:
@@ -33,16 +36,16 @@ class Creature:
         self.clock.tick()
 #Colision detection between players            
     def collision(self, creatures, direction):
-        checking = self.position[:]
-        if direction == Maze.TOP:
-            checking[0] -= 1
-        elif direction == Maze.RIGHT:
-            checking[1] += 1
-        elif direction == Maze.BOTTOM:
-            checking[0] += 1
-        elif direction == Maze.LEFT:
-            checking[1] -= 1
         for c in creatures:
-            if c.position==checking: 
+            if c.position==self.sqr_in_front(direction): 
                 return True
         return False
+    def sqr_in_front(self, direction):
+        if direction == Maze.TOP:
+            return [self.position[0] - 1,self.position[1]]
+        elif direction == Maze.RIGHT:
+            return [self.position[0],self.position[1]+1]
+        elif direction == Maze.BOTTOM:
+            return [self.position[0] + 1,self.position[1]]
+        elif direction == Maze.LEFT:
+            return [self.position[0],self.position[1]-1]

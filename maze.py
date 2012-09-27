@@ -9,6 +9,7 @@
 import re
 #THIS CHANGES THE VIEW SIZE
 offset = 1
+CREATURES = []
 
 def maze_from_file(filename):
     return Maze(open(filename).read())
