@@ -126,10 +126,10 @@ while True:
 					elif event.key in p2_keymap:
 						PLAYERS[1].move(MAZE, p2_keymap[event.key])
 #Summon Shadows
-##					if event.key == pygame.K_SLASH:
-##                                            PLAYERS[0].summon_shadow(PLAYERS[1].sqr_in_front(PLAYERS[1].direction),PLAYERS[1].direction, MAZE)
-##                                        if event.key == pygame.K_r:
-##                                            PLAYERS[1].summon_shadow(PLAYERS[0].sqr_in_front(PLAYERS[0].direction),PLAYERS[0].direction, MAZE) 
+					if event.key == pygame.K_SLASH:
+                                            PLAYERS[0].summon_shadow(PLAYERS[1].sqr_in_front(PLAYERS[1].direction),PLAYERS[1].direction, MAZE)
+                                        if event.key == pygame.K_r:
+                                            PLAYERS[1].summon_shadow(PLAYERS[0].sqr_in_front(PLAYERS[0].direction),PLAYERS[0].direction, MAZE) 
 		#SURFACE.fill(BG_COLOR)
 		for i in range(MAZE.height()+1):
 			for j in range(MAZE.width()+1):
