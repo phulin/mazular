@@ -46,6 +46,7 @@ PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM)
 					 for i in range(len(MAZE.starting_locations))]
 
 FONT = pygame.font.SysFont(None, 48)
+SMALL_FONT = pygame.font.SysFont(None, 30)
 pygame.key.set_repeat(1, 300)
     
 pygame.display.set_caption('Mazular')
@@ -80,23 +81,117 @@ dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
 
 #half ass menu, also there are two text bits because this function 
 #doesn't recognize new lines.
-while not pygame.event.peek([KEYDOWN,KEYUP]):
-    text = FONT.render("backstory", True, (102, 205, 170))
-    textRect = text.get_rect()
-    textRect.centerx = SURFACE.get_rect().centerx
-    textRect.centery = SURFACE.get_rect().centery-100
-    SURFACE.blit(text,textRect)
-    controls = FONT.render("controls description", True, (102, 205, 170))
-    textRect2 = controls.get_rect()
-    textRect2.centerx = SURFACE.get_rect().centerx
-    textRect2.centery = SURFACE.get_rect().centery
-    SURFACE.blit(controls,textRect2)
-    start = FONT.render("press any key to start", True, (102, 205, 170))
-    textRect3 = start.get_rect()
-    textRect3.centerx = SURFACE.get_rect().centerx
-    textRect3.centery = SURFACE.get_rect().centery+100
-    SURFACE.blit(start,textRect3)
-    pygame.display.update()
+
+
+### menu functions
+
+def load_start_menu() :
+	exitMenu = True
+	load_backstory = False
+	load_instructions = False
+	while (exitMenu ):
+	    text = FONT.render("backstory", True, (102, 205, 170))
+	    textRect = text.get_rect()
+	    textRect.centerx = SURFACE.get_rect().centerx
+	    textRect.centery = SURFACE.get_rect().centery-100
+	    SURFACE.blit(text,textRect)
+	    controls = FONT.render("controls description", True, (102, 205, 170))
+	    textRect2 = controls.get_rect()
+	    textRect2.centerx = SURFACE.get_rect().centerx
+	    textRect2.centery = SURFACE.get_rect().centery
+	    SURFACE.blit(controls,textRect2)
+	    start = FONT.render("press any key to start", True, (102, 205, 170))
+	    textRect3 = start.get_rect()
+	    textRect3.centerx = SURFACE.get_rect().centerx
+	    textRect3.centery = SURFACE.get_rect().centery+100
+	    SURFACE.blit(start,textRect3)
+	    pygame.display.update()
+	    for event in pygame.event.get():
+	    		if event.type == pygame.MOUSEBUTTONDOWN:
+	    			if textRect.collidepoint(pygame.mouse.get_pos() ) : 
+	    				load_backstory = True
+	    				exitMenu = False
+	    			elif textRect2.collidepoint(pygame.mouse.get_pos() ):
+	    				load_instructions = True
+	    				exitMenu = False
+	    			elif textRect3.collidepoint(pygame.mouse.get_pos() ) :
+	    				exitMenu = False
+	    		elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+	    				if event.key == pygame.K_m:
+	    					pass
+	    				else :
+								exitMenu = False
+	else:
+			SURFACE.fill((0,0,0))
+			if load_backstory:
+					load_backstory_menu()
+			elif load_instructions:
+					load_instructions_menu()
+
+def load_backstory_menu() :
+	exitMenu = True
+	load_start = False
+	while (exitMenu ):
+	    text = SMALL_FONT.render(" This is the story:", True, (102, 205, 170))
+	    textRect = text.get_rect()
+	    textRect.centerx = SURFACE.get_rect().centerx
+	    textRect.centery = SURFACE.get_rect().centery-100
+	    SURFACE.blit(text,textRect)
+	    
+	    start = SMALL_FONT.render("Press any key to start the game. Press M to return to main menu", True, (102, 205, 170))
+	    textRect3 = start.get_rect()
+	    textRect3.centerx = SURFACE.get_rect().centerx
+	    textRect3.centery = SURFACE.get_rect().centery+100
+	    SURFACE.blit(start,textRect3)
+	    pygame.display.update()
+	    for event in pygame.event.get():
+	    		if event.type == pygame.MOUSEBUTTONDOWN and textRect3.collidepoint(pygame.mouse.get_pos() ) :
+	    				exitMenu = False
+	    		elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+	    				if event.key == pygame.K_m:
+	    					load_start = True
+	    					exitMenu = False
+	    				else :
+								exitMenu = False
+	else:
+			SURFACE.fill((0,0,0))
+			if load_start:
+					load_start_menu()
+			
+
+def load_instructions_menu() :
+	exitMenu = True
+	load_start = False
+	while (exitMenu ):
+	    text = SMALL_FONT.render(" Left player move with WASD, right player move with arrow keys.", True, (102, 205, 170))
+	    textRect = text.get_rect()
+	    textRect.centerx = SURFACE.get_rect().centerx
+	    textRect.centery = SURFACE.get_rect().centery-100
+	    SURFACE.blit(text,textRect)
+	    
+	    start = SMALL_FONT.render("Press any key to start the game. Press M to return to main menu", True, (102, 205, 170))
+	    textRect3 = start.get_rect()
+	    textRect3.centerx = SURFACE.get_rect().centerx
+	    textRect3.centery = SURFACE.get_rect().centery+100
+	    SURFACE.blit(start,textRect3)
+	    pygame.display.update()
+	    for event in pygame.event.get():
+	    		if event.type == pygame.MOUSEBUTTONDOWN and textRect3.collidepoint(pygame.mouse.get_pos() ) :
+	    				exitMenu = False
+	    		elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+	    				if event.key == pygame.K_m:
+	    					load_start = True
+	    					exitMenu = False
+	    				else :
+								exitMenu = False
+	else:
+			SURFACE.fill((0,0,0))
+			if load_start:
+					load_start_menu()
+
+							
+load_start_menu()
+
 
 while True:
 		for event in pygame.event.get():
@@ -165,7 +260,7 @@ while True:
 		'''
                 #Win condition
                 if PLAYERS[0].position==MAZE.starting_locations[1]:
-                            text = FONT.render('Red Victory!', True, (122, 122, 122))
+                            text = FONT.render('Purple Victory!', True, (122, 122, 122))
                             textRect = text.get_rect()
                             textRect.centerx = SURFACE.get_rect().centerx
                             textRect.centery = SURFACE.get_rect().centery
@@ -173,7 +268,7 @@ while True:
                             pygame.display.update()
                             break
                 elif PLAYERS[1].position==MAZE.starting_locations[0]:
-                            text = FONT.render('Blue Victory!', True, (122, 122, 122))
+                            text = FONT.render('Yellow Victory!', True, (122, 122, 122))
                             textRect = text.get_rect()
                             textRect.centerx = SURFACE.get_rect().centerx
                             textRect.centery = SURFACE.get_rect().centery
@@ -207,3 +302,4 @@ def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,w
 				SURFACE.blit(wall_vertical_texture, ((j+1)*SQ_SIZE,i*SQ_SIZE,0,0))
 			if (MAZE.walls(i,j)[MAZE.LEFT]) :
 				SURFACE.blit(wall_vertical_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+
