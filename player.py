@@ -5,7 +5,7 @@ class Player:
     clock = pygame.time.Clock()
     position = [0, 0]
     #color = (255, 255, 255)
-    direction = Maze.TOP
+    direction = Maze.BOTTOM
     number = 0
     turn_time = 300
     time_till_move = turn_time

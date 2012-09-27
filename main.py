@@ -26,7 +26,7 @@ WALL_HEIGHT = 10
 WALL_WIDTH = SQ_SIZE + WALL_HEIGHT
 MAZE = maze_from_file("bigmaze.txt")
 SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
-PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.TOP)
+PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM)
 					 for i in range(len(MAZE.starting_locations))]
 
 FONT = pygame.font.SysFont(None, 48)
