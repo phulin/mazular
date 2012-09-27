@@ -78,6 +78,26 @@ body_back = pygame.transform.scale(mcguff_sprite.subsurface(328,20,90,95),(SQ_SI
 mcguffs = [crown_mg,sceptor_mg, [body_front,body_back,body_left,body_right]]
 dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
 
+#half ass menu, also there are two text bits because this function 
+#doesn't recognize new lines.
+while not pygame.event.peek([KEYDOWN,KEYUP]):
+    text = FONT.render("backstory", True, (102, 205, 170))
+    textRect = text.get_rect()
+    textRect.centerx = SURFACE.get_rect().centerx
+    textRect.centery = SURFACE.get_rect().centery-100
+    SURFACE.blit(text,textRect)
+    controls = FONT.render("controls description", True, (102, 205, 170))
+    textRect2 = controls.get_rect()
+    textRect2.centerx = SURFACE.get_rect().centerx
+    textRect2.centery = SURFACE.get_rect().centery
+    SURFACE.blit(controls,textRect2)
+    start = FONT.render("press any key to start", True, (102, 205, 170))
+    textRect3 = start.get_rect()
+    textRect3.centerx = SURFACE.get_rect().centerx
+    textRect3.centery = SURFACE.get_rect().centery+100
+    SURFACE.blit(start,textRect3)
+    pygame.display.update()
+
 while True:
 		for event in pygame.event.get():
 				if event.type is QUIT:
@@ -87,7 +107,6 @@ while True:
 					if event.key == pygame.K_ESCAPE:
 						pygame.quit()
 						sys.exit()
-					print "Win conditions :" + str(MAZE.starting_locations) + " Player 0: " + str(PLAYERS[0].position)
 					p1_keymap = {
 							pygame.K_UP: Maze.TOP,
 							pygame.K_DOWN: Maze.BOTTOM,

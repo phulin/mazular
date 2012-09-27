@@ -18,7 +18,6 @@ class Player:
 
     def move(self, maze, direction):
         self.direction = direction
-        print self.time_till_move - self.clock.get_time()
         if self.clock.get_time() > self.time_till_move and not maze.walls(*self.position)[direction]:
             if direction == Maze.TOP:
                 self.position[0] -= 1
