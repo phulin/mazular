@@ -135,7 +135,7 @@ while True:
 			for j in range(MAZE.width()+1):
 				SURFACE.blit(fog_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
 		draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture)
-		draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture)
+		draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture, mcguffs)
 		for player in PLAYERS:
 				position = player.position
 				# IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.
