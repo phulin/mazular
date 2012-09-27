@@ -130,7 +130,7 @@ while True:
 ##                                            PLAYERS[0].summon_shadow(PLAYERS[1].sqr_in_front(PLAYERS[1].direction),PLAYERS[1].direction, MAZE)
 ##                                        if event.key == pygame.K_r:
 ##                                            PLAYERS[1].summon_shadow(PLAYERS[0].sqr_in_front(PLAYERS[0].direction),PLAYERS[0].direction, MAZE) 
-		#SURFACE.fill(BG_COLOR)
+
 		for i in range(MAZE.height()+1):
 			for j in range(MAZE.width()+1):
 				SURFACE.blit(fog_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
