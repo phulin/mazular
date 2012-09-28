@@ -69,6 +69,11 @@ while True:
     floor_texture = pygame.transform.scale(floor_texture,(SQ_SIZE+WALL_HEIGHT,SQ_SIZE+WALL_HEIGHT));
 
     while not pygame.event.peek(KEYDOWN):
+        text = FONT.render("Mazular", True, (102, 205, 170))
+        textRect = text.get_rect()
+        textRect.centerx = SURFACE.get_rect().centerx
+        textRect.centery = SURFACE.get_rect().centery-225
+        SURFACE.blit(text,textRect)
         text = FONT.render("Two ghosts are trying to inhabit a king's body", True, (102, 205, 170))
         textRect = text.get_rect()
         textRect.centerx = SURFACE.get_rect().centerx
