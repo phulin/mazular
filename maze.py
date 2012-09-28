@@ -9,13 +9,14 @@
 import re
 #THIS CHANGES THE VIEW SIZE
 offset = 1
+CREATURES = []
 
 def maze_from_file(filename):
     return Maze(open(filename).read())
 
-def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture):                               
-    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[0],wall_vertical_texture,wall_horizontal_texture);                  
-    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[1],wall_vertical_texture,wall_horizontal_texture);                                                                                                                             
+def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture,mcguffs):                               
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[0],wall_vertical_texture,wall_horizontal_texture,mcguffs);                  
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[1],wall_vertical_texture,wall_horizontal_texture,mcguffs);                                                                                                                             
 def draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture):
     for i in range(PLAYERS[0].position[0] - offset, PLAYERS[0].position[0] + offset + 1):
         for j in range(PLAYERS[0].position[1] - offset, PLAYERS[0].position[1] + offset + 1):       
@@ -26,10 +27,13 @@ def draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture):
             if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
                 SURFACE.blit(floor_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
     
-def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wall_horizontal_texture):                 
+def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wall_horizontal_texture,mcguffs):           
+    macguf_regex = re.compile(r"[012]")
     for i in range(player.position[0]-offset, player.position[0] + 1+offset):
         for j in range(player.position[1]-offset, player.position[1] + 1+offset):       
             if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
+                if (MAZE.macguffin_locations[i][j] != 3) :
+                    SURFACE.blit(mcguffs[int(MAZE.macguffin_locations[i][j])], (j*SQ_SIZE+10,i*SQ_SIZE+10,0,0))
                 if (MAZE.walls(i,j)[MAZE.TOP]) :
                     SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
                 if (MAZE.walls(i,j)[MAZE.BOTTOM]) : 
@@ -38,6 +42,10 @@ def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wa
                     SURFACE.blit(wall_vertical_texture, ((j+1)*SQ_SIZE,i*SQ_SIZE,0,0))
                 if (MAZE.walls(i,j)[MAZE.LEFT]) :
                     SURFACE.blit(wall_vertical_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
+                    
+                    
+                    
+                    
 
 class Maze:
     class ParseError:
@@ -59,8 +67,9 @@ class Maze:
     LEFT = 3
 
     horiz_regex = re.compile(r"\+([- ]\+)+$")
-    vert_regex = re.compile(r"\|([ *][| ])+$")
-    macguf_regex = re.compile(r"[012]")
+    vert_regex = re.compile(r"\|([ *@01][| ])+$")
+    macguf_regex = re.compile(r"[01]")
+    powerp_regex = re.compile(r"@")
 
     # Takes string representation of maze, as outlined above
     def __init__(self, maze_repr):
@@ -76,10 +85,14 @@ class Maze:
         self.vert_walls = []
         # list of starting locations; should only contain two
         self.starting_locations = []
-        # list of macguffins; currently 3
-        self.macguffin_locations = []
+        
 
         maze_lines = maze_repr.splitlines()
+        # list of macguffins; currently 3
+        self.macguffin_locations = [[3 for i in range(len(maze_lines))] for j in range(len(maze_lines))]
+        # power...points... really that name is horrible
+        self.powerp_locations = []
+       
         for line_num in range(len(maze_lines)):
             line = maze_lines[line_num].strip()
             if line_num % 2 is 0 and self.horiz_regex.match(line):
@@ -93,7 +106,9 @@ class Maze:
                     if c is '*':
                         self.starting_locations.append([line_num / 2, col_num / 2])
                     if self.macguf_regex.match(c):
-                        self.macguffin_locations[c] = (line_num / 2, col_num / 2)                
+                        self.macguffin_locations[line_num/2][col_num/2] = c;
+                    if self.powerp_regex.match(c):
+                        self.powerp_locations.append([line_num/2,col_num/2]);
                     if col_num % 2 is 0:
                         result.append(c == '|')
                 self.vert_walls.append(result)
