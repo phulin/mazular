@@ -46,8 +46,11 @@ while True:
 	PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM, 'Player ' + str(i))
 		for i in range(len(MAZE.starting_locations))]
 	MAZE.CREATURES = [player for player in PLAYERS]
+	CROWN = 0
+	SCEPTOR = 1
+	BODY = 2
 	macguffins_collected = [0,0]
-	mac_small = [0,0]
+	mac_small = [0,0,0]
 	FONT = pygame.font.SysFont(None, 48)
 	SMALL_FONT = pygame.font.SysFont(None, 30)
 
@@ -80,7 +83,7 @@ while True:
 	body_left = pygame.transform.scale(mcguff_sprite.subsurface(137,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
 	body_right = pygame.transform.scale(mcguff_sprite.subsurface(232,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
 	body_back = pygame.transform.scale(mcguff_sprite.subsurface(328,20,90,95),(SQ_SIZE-10,SQ_SIZE-10))
-	mcguffs = [crown_mg,sceptor_mg, [body_front,body_back,body_left,body_right]]
+	mcguffs = [crown_mg,sceptor_mg, body_front]
 	dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
 
 	#half ass menu, also there are two text bits because this function 
@@ -92,7 +95,7 @@ while True:
 		textRect.centerx = SURFACE.get_rect().centerx
 		textRect.centery = SURFACE.get_rect().centery-150
 		SURFACE.blit(text,textRect)
-		text2 = SMALL_FONT.render("but to do so they must collect the royal sceptor and crown", True, (102, 205, 170))
+		text2 = SMALL_FONT.render("but to do so one must first collect the royal sceptor or royal crown", True, (102, 205, 170))
 		textRect4 = text2.get_rect()
 		textRect4.centerx = SURFACE.get_rect().centerx
 		textRect4.centery = SURFACE.get_rect().centery-75
@@ -169,7 +172,7 @@ while True:
 
 	    for i in range(2):
 		if(macguffins_collected[i] > 0 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == 3):
-		    MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = macguffins_collected[i] - 1
+		    MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = macguffins_collected[i]
 
 	    draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture, mcguffs, mac_small)
 
@@ -184,22 +187,23 @@ while True:
 
 
 	    #Win condition
+	    macg_const = 5
 	    for i in range(2):
-		for j in range(2):
-		    if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
-			#MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
-			macguffins_collected[i] = macguffins_collected[i] + j + 1
-			mcguffs[j] = pygame.transform.scale(mcguffs[j],(SQ_SIZE/4,SQ_SIZE/4))
-			mac_small[j] = 25
+		for j in range(3):
+                    if not(j ==2 and macguffins_collected[i] == 0):	
+			if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
+				if macguffins_collected[i] == 0:
+					macguffins_collected[i]+= macg_const
+				print macguffins_collected[i]
+				macguffins_collected[i] = macguffins_collected[i] + 2**j
+				mcguffs[j] = pygame.transform.scale(mcguffs[j],(SQ_SIZE/4,SQ_SIZE/4))
+				mac_small[j] = 20 + 10*j
+		
 	    for i in range(2):
-		if (macguffins_collected[i] == 1 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] != 1) :
+		if (macguffins_collected[i] >= 1) :
 		    MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
-		if (macguffins_collected[i] == 2 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] != 0) :
-		    MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
-		if (macguffins_collected[i] == 3) :
-		    MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3        
-
-	    if macguffins_collected[0] == 3:
+	
+	    if macguffins_collected[0] == 7+ macg_const or  macguffins_collected[0] == 5+ macg_const or  macguffins_collected[0] ==  6+ macg_const:
 		text = FONT.render('Purple Victory!', True, (122, 122, 122))
 		textRect = text.get_rect()
 		textRect.centerx = SURFACE.get_rect().centerx
@@ -207,7 +211,7 @@ while True:
 		SURFACE.blit(text,textRect)
 		pygame.display.update()
 		break
-	    elif macguffins_collected[1] == 3:
+	    elif macguffins_collected[1] == 7+ macg_const or macguffins_collected[1] == 5+ macg_const or  macguffins_collected[1] == 6+ macg_const:
 		text = FONT.render('Yellow Victory!', True, (122, 122, 122))
 		textRect = text.get_rect()
 		textRect.centerx = SURFACE.get_rect().centerx
