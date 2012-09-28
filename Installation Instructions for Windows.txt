@@ -6,5 +6,5 @@ Installation Instructions for windows
 2.) Uninstall any old version of Pygame you have 
      (if they're not current)
 3.) Install Pygame v 1.9.1 for Windows 32 bit, 
-     for python 2.7
-4.) Play game
+     for python 2.7 (http://pygame.org/download.shtml)
+4.) python main.py from this directory
