@@ -36,7 +36,7 @@ while True:
     body_left = pygame.transform.scale(mcguff_sprite.subsurface(137,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
     body_right = pygame.transform.scale(mcguff_sprite.subsurface(232,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
     body_back = pygame.transform.scale(mcguff_sprite.subsurface(328,20,90,95),(SQ_SIZE-10,SQ_SIZE-10))
-    mcguffs = [crown_mg,sceptor_mg, [body_front,body_back,body_left,body_right]]
+    mcguffs = [crown_mg,sceptor_mg, body_front]
     dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
 
     WALL_HEIGHT = 10
@@ -67,24 +67,6 @@ while True:
     floor_sprite = pygame.image.load("art/wallfloortiles.bmp")
     floor_texture = fog_sprite.subsurface(15,15,180,180)
     floor_texture = pygame.transform.scale(floor_texture,(SQ_SIZE+WALL_HEIGHT,SQ_SIZE+WALL_HEIGHT));
-
-    mcguff_sprite = pygame.image.load("art/mcguffs.bmp")
-    pygame.transform.scale(player_sprite.subsurface(7,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
-    crown_mg = pygame.transform.scale(mcguff_sprite.subsurface(32,163,56,30),(SQ_SIZE-20,SQ_SIZE-30))
-    sceptor_mg = pygame.transform.scale(mcguff_sprite.subsurface(120,150,70,70),(SQ_SIZE-20,SQ_SIZE-20))
-    dragon_right = pygame.transform.scale(mcguff_sprite.subsurface(250,147,111,88),(SQ_SIZE-10,SQ_SIZE-10))
-    dragon_left = pygame.transform.scale(mcguff_sprite.subsurface(377,147,111,88),(SQ_SIZE-10,SQ_SIZE-10))
-    dragon_front = pygame.transform.scale(mcguff_sprite.subsurface(376,252,104,80),(SQ_SIZE-10,SQ_SIZE-10))
-    dragon_back = pygame.transform.scale(mcguff_sprite.subsurface(240,244,104,80),(SQ_SIZE-10,SQ_SIZE-10))
-    body_front = pygame.transform.scale(mcguff_sprite.subsurface(16,20,88,95),(SQ_SIZE-10,SQ_SIZE-10))
-    body_left = pygame.transform.scale(mcguff_sprite.subsurface(137,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
-    body_right = pygame.transform.scale(mcguff_sprite.subsurface(232,20,80,95),(SQ_SIZE-10,SQ_SIZE-10))
-    body_back = pygame.transform.scale(mcguff_sprite.subsurface(328,20,90,95),(SQ_SIZE-10,SQ_SIZE-10))
-    mcguffs = [crown_mg,sceptor_mg, [body_front,body_back,body_left,body_right]]
-    dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
-
-#half ass menu, also there are two text bits because this function 
-#doesn't recognize new lines.
 
     while not pygame.event.peek(KEYDOWN):
         text = FONT.render("Two ghosts are trying to inhabit a king's body", True, (102, 205, 170))
@@ -199,7 +181,25 @@ while True:
             text = FONT.render('Purple Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
-            textRect.centery = SURFACE.get_rect().centery
+            textRect.centery = SURFACE.get_rect().centery - 100
+            SURFACE.blit(text,textRect)
+
+            text = FONT.render('Credits: Eli Davis, Nolan Eastin,', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery - 25
+            SURFACE.blit(text,textRect)
+
+            text = FONT.render('Beth Findley, Patrick Hulin, Mike Salvato', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 25
+            SURFACE.blit(text,textRect)
+
+            text = FONT.render('Press space to restart.', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 100
             SURFACE.blit(text,textRect)
             pygame.display.update()
             break
@@ -207,7 +207,25 @@ while True:
             text = FONT.render('Yellow Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
-            textRect.centery = SURFACE.get_rect().centery
+            textRect.centery = SURFACE.get_rect().centery - 100
+            SURFACE.blit(text,textRect)
+
+            text = FONT.render('Credits: Eli Davis, Nolan Eastin,', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery - 25
+            SURFACE.blit(text,textRect)
+
+            text = FONT.render('Beth Findley, Patrick Hulin, Mike Salvato', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 25
+            SURFACE.blit(text,textRect)
+
+            text = FONT.render('Press space to restart.', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 100
             SURFACE.blit(text,textRect)
             pygame.display.update()
             break
