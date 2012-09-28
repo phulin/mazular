@@ -10,7 +10,8 @@ pygame.init()
 pygame.mixer.init()
 
 while True:
-    MACGUFFIN_SOUND = pygame.mixer.Sound("art/45137__dj-chronos__dark-church-bell.ogg")
+    MACGUFFIN_SOUND = pygame.mixer.Sound("art/33637__herbertboland__cinematicboomnorm.ogg")
+    WIN_SOUND = pygame.mixer.Sound("art/45137__dj-chronos__dark-church-bell.ogg")
     pygame.mixer.music.load("art/22698__dj-chronos__loop-2.ogg")
 
     BG_COLOR = (0, 0, 0)
@@ -93,11 +94,15 @@ while True:
         textRect2.centerx = SURFACE.get_rect().centerx
         textRect2.centery = SURFACE.get_rect().centery+75
         SURFACE.blit(controls,textRect2)
-        start = FONT.render("press any key to start", True, (102, 205, 170))
+        start = FONT.render("press enter to start", True, (102, 205, 170))
         textRect3 = start.get_rect()
         textRect3.centerx = SURFACE.get_rect().centerx
         textRect3.centery = SURFACE.get_rect().centery+150
         SURFACE.blit(start,textRect3)
+        for event in pygame.event.get():
+            if event.type is QUIT:
+                pygame.quit()
+                sys.exit()
         pygame.display.update()
 
     reset = False
@@ -189,6 +194,7 @@ while True:
                 MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3        
 
         if macguffins_collected[0] > 3:
+            WIN_SOUND.play()
             text = FONT.render('Purple Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
@@ -210,11 +216,25 @@ while True:
             text = FONT.render('Press space to restart.', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
-            textRect.centery = SURFACE.get_rect().centery + 100
+            textRect.centery = SURFACE.get_rect().centery + 190
             SURFACE.blit(text,textRect)
+			
+            text = FONT.render('Sound courtesy of Dan Oberbauer', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 75
+            SURFACE.blit(text,textRect)
+
+            text = FONT.render('and Herbert Boland', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 125
+            SURFACE.blit(text,textRect)
+			
             pygame.display.update()
             break
         elif macguffins_collected[1] > 3:
+            WIN_SOUND.play()
             text = FONT.render('Yellow Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
@@ -236,8 +256,22 @@ while True:
             text = FONT.render('Press space to restart.', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
-            textRect.centery = SURFACE.get_rect().centery + 100
+            textRect.centery = SURFACE.get_rect().centery + 190
             SURFACE.blit(text,textRect)
+			
+            text = FONT.render('Sound courtesy of Dan Oberbauer', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 75
+            SURFACE.blit(text,textRect)
+
+	    text = FONT.render('and Herbert Boland', True, (122, 122, 122))
+            textRect = text.get_rect()
+            textRect.centerx = SURFACE.get_rect().centerx
+            textRect.centery = SURFACE.get_rect().centery + 125
+            SURFACE.blit(text,textRect)
+
+            
             pygame.display.update()
             break
     while not reset:
