@@ -46,7 +46,7 @@ PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM, 'Play
 					 for i in range(len(MAZE.starting_locations))]
 MAZE.CREATURES = [player for player in PLAYERS]
 macguffins_collected = [0,0]
-
+mac_small = [0,0]
 FONT = pygame.font.SysFont(None, 48)
 SMALL_FONT = pygame.font.SysFont(None, 30)
  
@@ -227,7 +227,6 @@ while True:
 			for j in range(MAZE.width()+1):
 				SURFACE.blit(fog_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
 		draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture)
-		draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture, mcguffs)
 		for player in PLAYERS:
 				position = player.position
 				# IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.
@@ -243,6 +242,13 @@ while True:
 				else:
 					index=0
 				SURFACE.blit(PLAYER_SPRITES[player.number][index],screen_position)
+				
+		for i in range(2):
+			if(macguffins_collected[i] > 0 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == 3):
+				MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = macguffins_collected[i] - 1
+		
+		draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture, mcguffs, mac_small)
+				
                 #Move and draw the shadows
                 for i in range(len(MAZE.CREATURES))[2:]:
                     MAZE.CREATURES[i].navigate(MAZE)
@@ -250,15 +256,29 @@ while True:
                     screen_position = (int(SQ_SIZE * (position[1] + 0.55)), int(SQ_SIZE * (position[0] + 0.6)))
                     pygame.draw.circle(SURFACE, (122,122,122), screen_position, int(SQ_SIZE * 0.3))
 		pygame.display.update()
-
+		
+		
+					
                 #Win condition
                 for i in range(2):
                     for j in range(2):
                         if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
-                            MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
-                            macguffins_collected[i] = macguffins_collected[i] + 1
-                    
-                    
+				#MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
+				macguffins_collected[i] = macguffins_collected[i] + j + 1
+				mcguffs[j] = pygame.transform.scale(mcguffs[j],(SQ_SIZE/4,SQ_SIZE/4))
+				mac_small[j] = 25
+		for i in range(2):
+			if (macguffins_collected[i] == 1 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] != 1) :
+				MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
+			if (macguffins_collected[i] == 2 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] != 0) :
+				MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
+			if (macguffins_collected[i] == 3) :
+				MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
+				
+
+
+		
+		    
                 if PLAYERS[0].position==MAZE.starting_locations[1]:
                             text = FONT.render('Purple Victory!', True, (122, 122, 122))
                             textRect = text.get_rect()

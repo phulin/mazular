@@ -14,9 +14,9 @@ CREATURES = []
 def maze_from_file(filename):
     return Maze(open(filename).read())
 
-def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture,mcguffs):                               
-    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[0],wall_vertical_texture,wall_horizontal_texture,mcguffs);                  
-    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[1],wall_vertical_texture,wall_horizontal_texture,mcguffs);                                                                                                                             
+def draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture,mcguffs, mac_small):                               
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[0],wall_vertical_texture,wall_horizontal_texture,mcguffs, mac_small);                  
+    draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,PLAYERS[1],wall_vertical_texture,wall_horizontal_texture,mcguffs, mac_small);                                                                                                                             
 def draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture):
     for i in range(PLAYERS[0].position[0] - offset, PLAYERS[0].position[0] + offset + 1):
         for j in range(PLAYERS[0].position[1] - offset, PLAYERS[0].position[1] + offset + 1):       
@@ -27,13 +27,18 @@ def draw_maze_floor(SQ_SIZE,MAZE,SURFACE,PLAYERS,floor_texture):
             if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
                 SURFACE.blit(floor_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
     
-def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wall_horizontal_texture,mcguffs):           
+def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wall_horizontal_texture,mcguffs, mac_small):           
     macguf_regex = re.compile(r"[012]")
     for i in range(player.position[0]-offset, player.position[0] + 1+offset):
         for j in range(player.position[1]-offset, player.position[1] + 1+offset):       
             if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
                 if (MAZE.macguffin_locations[i][j] != 3) :
-                    SURFACE.blit(mcguffs[int(MAZE.macguffin_locations[i][j])], (j*SQ_SIZE+10,i*SQ_SIZE+10,0,0))
+                    if(MAZE.macguffin_locations[i][j] == 2):
+                        for which_guf in range(2):
+                            SURFACE.blit(mcguffs[which_guf], (j*SQ_SIZE+5+mac_small[which_guf]*which_guf + ((which_guf+1)%2)*mac_small[which_guf]/2,i*SQ_SIZE+10+mac_small[which_guf],0,0))
+                    else:
+                        which_guf = int(MAZE.macguffin_locations[i][j])
+                        SURFACE.blit(mcguffs[which_guf], (j*SQ_SIZE+10+mac_small[which_guf]*which_guf,i*SQ_SIZE+10+mac_small[which_guf],0,0))
                 if (MAZE.walls(i,j)[MAZE.TOP]) :
                     SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
                 if (MAZE.walls(i,j)[MAZE.BOTTOM]) : 
