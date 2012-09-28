@@ -125,11 +125,22 @@ while True:
 						PLAYERS[0].move(MAZE, p1_keymap[event.key])
 					elif event.key in p2_keymap:
 						PLAYERS[1].move(MAZE, p2_keymap[event.key])
-#Summon Shadows
+                                        #Summon Shadows
 					if event.key == pygame.K_SLASH:
-                                            PLAYERS[0].summon_shadow(PLAYERS[1].sqr_in_front(PLAYERS[1].direction),PLAYERS[1].direction, MAZE)
+                                            pos = PLAYERS[1].sqr_in_front(PLAYERS[1].direction)
+                                            
+                                            if pos[0]<0 or pos[1]<0 or pos[0]>=MAZE.height() or pos[1]>=MAZE.width()-1:
+                                                print 
+                                                pass
+                                            else:
+                                                PLAYERS[0].summon_shadow(pos,PLAYERS[1].direction, MAZE)
                                         if event.key == pygame.K_r:
-                                            PLAYERS[1].summon_shadow(PLAYERS[0].sqr_in_front(PLAYERS[0].direction),PLAYERS[0].direction, MAZE) 
+                                            pos = PLAYERS[0].sqr_in_front(PLAYERS[0].direction)
+                                            print "pos: " +str(pos) + " maze height and width " + str(MAZE.height()) + "," + str(MAZE.width())
+                                            if pos[0]<0 or pos[1]<0 or pos[0]>MAZE.height() or pos[1]>MAZE.width()-1:
+                                                pass
+                                            else:
+                                               PLAYERS[1].summon_shadow(PLAYERS[0].sqr_in_front(PLAYERS[0].direction),PLAYERS[0].direction, MAZE) 
 		#SURFACE.fill(BG_COLOR)
 		for i in range(MAZE.height()+1):
 			for j in range(MAZE.width()+1):
@@ -157,7 +168,7 @@ while True:
                     MAZE.CREATURES[i].navigate(MAZE)
                     position = MAZE.CREATURES[i].position
                     screen_position = (int(SQ_SIZE * (position[1] + 0.55)), int(SQ_SIZE * (position[0] + 0.6)))
-                    pygame.draw.circle(SURFACE, (122,122,122), screen_position, int(SQ_SIZE * 0.3))
+                    pygame.draw.circle(SURFACE, (90,90,90), screen_position, int(SQ_SIZE * 0.3))
 		pygame.display.update()
                 
 

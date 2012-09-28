@@ -3,9 +3,8 @@ from creature import Creature
 import pygame
 import random
 class Shadow(Creature):
-    turn_time = 600
+    turn_time = 1200
     def navigate(self,maze):
-        print "go"
         n = random.randint(0,3)
         if n==0:
             self.move(maze, Maze.TOP)
