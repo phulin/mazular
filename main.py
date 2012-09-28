@@ -164,7 +164,7 @@ while True:
 
         for i in range(2):
             if(macguffins_collected[i] > 0 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == 3):
-                MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = macguffins_collected[i] - 1
+                MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = macguffins_collected[i]
 
         draw_maze(SQ_SIZE,MAZE,SURFACE,PLAYERS,wall_vertical_texture,wall_horizontal_texture, mcguffs, mac_small)
 
@@ -177,25 +177,24 @@ while True:
         pygame.display.update()
 
 
-
-        #Win condition
+        macg_const = 5
         for i in range(2):
             for j in range(3):
-                if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
-                    MACGUFFIN_SOUND.play()
-                    #MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
-                    macguffins_collected[i] = macguffins_collected[i] + j + 1
-                    mcguffs[j] = pygame.transform.scale(mcguffs[j],(SQ_SIZE/4,SQ_SIZE/4))
-                    mac_small[j] = 25
-        for i in range(2):
-            if (macguffins_collected[i] == 1 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] != 1) :
-                MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
-            if (macguffins_collected[i] == 2 and MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] != 0) :
-                MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
-            if (macguffins_collected[i] == 3) :
-                MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3        
+                if not(j ==2 and macguffins_collected[i] == 0):
+                    if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
+                           if macguffins_collected[i] == 0:
+                                   macguffins_collected[i]+= macg_const
+                           
+                           macguffins_collected[i] = macguffins_collected[i] + 2**j
+                           
+                           mcguffs[j] = pygame.transform.scale(mcguffs[j],(SQ_SIZE/4,SQ_SIZE/4))
+                           mac_small[j] = 20 + 10*j
 
-        if macguffins_collected[0] > 3:
+        for i in range(2):
+           if (macguffins_collected[i] >= 1) :
+               MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
+
+        if  macguffins_collected[0] == 7+ macg_const or  macguffins_collected[0] == 5+ macg_const or  macguffins_collected[0] ==  6+ macg_const:
             WIN_SOUND.play()
             pygame.mixer.music.stop()
             text = FONT.render('Purple Victory!', True, (122, 122, 122))
@@ -236,7 +235,7 @@ while True:
 			
             pygame.display.update()
             break
-        elif macguffins_collected[1] > 3:
+        elif macguffins_collected[1] == 7+ macg_const or macguffins_collected[1] == 5+ macg_const or  macguffins_collected[1] == 6+ macg_const:
             WIN_SOUND.play()
             pygame.mixer.music.stop()
             text = FONT.render('Yellow Victory!', True, (122, 122, 122))
