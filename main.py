@@ -5,6 +5,7 @@ from maze import draw_maze
 from player import Player
 from pygame.locals import *
 import pygame.mixer
+import random
 
 pygame.init()
 pygame.mixer.init()
@@ -17,8 +18,8 @@ while True:
     BG_COLOR = (0, 0, 0)
     PLAYER_COLORS = [(255, 0, 0), (0, 0, 255)]
     SQ_SIZE = 50 # pixel size of each square
-#PLAYER_SPRITES = [pygame.image.load(os.path.join('art', 'bla.bmp')),pygame.image.load(os.path.join('art', 'bla.png'))]
-    player_sprite = pygame.image.load("art/royalghost.png")
+#PLAYER_SPRITES = [pygame.image.load(os.path.join('art', 'bla.bmp')),pygame.image.load(os.path.join('art', 'bla.bmp'))]
+    player_sprite = pygame.image.load("art/royalghost.bmp")
     p1_right = pygame.transform.scale(player_sprite.subsurface(7,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
     p1_front = pygame.transform.scale(player_sprite.subsurface(7,261,175,190),(SQ_SIZE-10,SQ_SIZE-10))
     p1_left = pygame.transform.scale(player_sprite.subsurface(471,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
@@ -29,7 +30,7 @@ while True:
     p2_back = pygame.transform.scale(player_sprite.subsurface(759,261,175,190),(SQ_SIZE-10,SQ_SIZE-10))
     PLAYER_SPRITES=[[p1_front,p1_back,p1_left,p1_right],[p2_front,p2_back,p2_left,p2_right]]
 
-    mcguff_sprite = pygame.image.load("art/mcguffs.png")
+    mcguff_sprite = pygame.image.load("art/mcguffs.bmp")
     pygame.transform.scale(player_sprite.subsurface(7,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
     crown_mg = pygame.transform.scale(mcguff_sprite.subsurface(32,163,56,30),(SQ_SIZE-10,SQ_SIZE-10))
     sceptor_mg = pygame.transform.scale(mcguff_sprite.subsurface(148,121,70,70),(SQ_SIZE-10,SQ_SIZE-10))
@@ -46,7 +47,8 @@ while True:
 
     WALL_HEIGHT = 10
     WALL_WIDTH = SQ_SIZE + WALL_HEIGHT
-    MAZE = maze_from_file("bigmaze.txt")
+    maze_name = "bigmaze" + str(random.randint(0,4))+".txt"
+    MAZE = maze_from_file(maze_name)
     SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
     PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM, 'Player ' + str(i))
             for i in range(len(MAZE.starting_locations))]
@@ -61,15 +63,15 @@ while True:
     pygame.display.set_caption('Mazular')
 #load whole sprite, select coordinates for right one
 #unsure if you all want to keep it this way or crop out the actual tile
-    wall_sprite = pygame.image.load("art/wallfloortiles.png")
+    wall_sprite = pygame.image.load("art/wallfloortiles.bmp")
     wall_texture = wall_sprite.subsurface( 731, 12, 150, 150)
     wall_vertical_texture = pygame.transform.scale( wall_texture, (WALL_HEIGHT, WALL_WIDTH))
     wall_horizontal_texture = pygame.transform.rotate(wall_vertical_texture, 90)
-    fog_sprite = pygame.image.load("art/wallfloortiles.png")
+    fog_sprite = pygame.image.load("art/wallfloortiles.bmp")
 #fog_texture = fog_sprite.subsurface(733,238,190,190)
     fog_texture = fog_sprite.subsurface(15,238,180,180)
     fog_texture = pygame.transform.scale(fog_texture,(SQ_SIZE,SQ_SIZE));
-    floor_sprite = pygame.image.load("art/wallfloortiles.png")
+    floor_sprite = pygame.image.load("art/wallfloortiles.bmp")
     floor_texture = fog_sprite.subsurface(15,15,180,180)
     floor_texture = pygame.transform.scale(floor_texture,(SQ_SIZE+WALL_HEIGHT,SQ_SIZE+WALL_HEIGHT));
 
@@ -195,6 +197,7 @@ while True:
 
         if  macguffins_collected[0] == 7+ macg_const or  macguffins_collected[0] == 5+ macg_const or  macguffins_collected[0] ==  6+ macg_const:
             WIN_SOUND.play()
+            pygame.mixer.music.stop()
             text = FONT.render('Purple Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
@@ -235,6 +238,7 @@ while True:
             break
         elif macguffins_collected[1] == 7+ macg_const or macguffins_collected[1] == 5+ macg_const or  macguffins_collected[1] == 6+ macg_const:
             WIN_SOUND.play()
+            pygame.mixer.music.stop()
             text = FONT.render('Yellow Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
