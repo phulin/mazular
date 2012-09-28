@@ -283,7 +283,7 @@ while True:
         SURFACE.blit(text,textRect)
         pygame.display.update()
         break
-    elif PLAYERS[1].position==MAZE.starting_locations[0]:
+    elif macguffins_collected[1] == 3:
         text = FONT.render('Yellow Victory!', True, (122, 122, 122))
         textRect = text.get_rect()
         textRect.centerx = SURFACE.get_rect().centerx
