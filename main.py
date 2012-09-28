@@ -47,7 +47,7 @@ while True:
             for i in range(len(MAZE.starting_locations))]
     MAZE.CREATURES = [player for player in PLAYERS]
     macguffins_collected = [0,0]
-    mac_small = [0,0]
+    mac_small = [0,0,0]
     FONT = pygame.font.SysFont(None, 48)
     SMALL_FONT = pygame.font.SysFont(None, 30)
 
@@ -163,7 +163,7 @@ while True:
 
         #Win condition
         for i in range(2):
-            for j in range(2):
+            for j in range(3):
                 if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
                     #MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
                     macguffins_collected[i] = macguffins_collected[i] + j + 1
@@ -177,7 +177,7 @@ while True:
             if (macguffins_collected[i] == 3) :
                 MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3        
 
-        if macguffins_collected[0] == 3:
+        if macguffins_collected[0] > 3:
             text = FONT.render('Purple Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
@@ -203,7 +203,7 @@ while True:
             SURFACE.blit(text,textRect)
             pygame.display.update()
             break
-        elif macguffins_collected[1] == 3:
+        elif macguffins_collected[1] > 3:
             text = FONT.render('Yellow Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
