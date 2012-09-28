@@ -4,16 +4,20 @@ from maze import *
 from maze import draw_maze
 from player import Player
 from pygame.locals import *
+import pygame.mixer
 
 pygame.init()
-
+pygame.mixer.init()
 
 while True:
+    MACGUFFIN_SOUND = pygame.mixer.Sound("art/45137__dj-chronos__dark-church-bell.ogg")
+    pygame.mixer.music.load("art/22698__dj-chronos__loop-2.ogg")
+
     BG_COLOR = (0, 0, 0)
     PLAYER_COLORS = [(255, 0, 0), (0, 0, 255)]
     SQ_SIZE = 50 # pixel size of each square
 #PLAYER_SPRITES = [pygame.image.load(os.path.join('art', 'bla.bmp')),pygame.image.load(os.path.join('art', 'bla.png'))]
-    player_sprite = pygame.image.load("art/royalghost.bmp")
+    player_sprite = pygame.image.load("art/royalghost.png")
     p1_right = pygame.transform.scale(player_sprite.subsurface(7,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
     p1_front = pygame.transform.scale(player_sprite.subsurface(7,261,175,190),(SQ_SIZE-10,SQ_SIZE-10))
     p1_left = pygame.transform.scale(player_sprite.subsurface(471,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
@@ -24,7 +28,7 @@ while True:
     p2_back = pygame.transform.scale(player_sprite.subsurface(759,261,175,190),(SQ_SIZE-10,SQ_SIZE-10))
     PLAYER_SPRITES=[[p1_front,p1_back,p1_left,p1_right],[p2_front,p2_back,p2_left,p2_right]]
 
-    mcguff_sprite = pygame.image.load("art/mcguffs.bmp")
+    mcguff_sprite = pygame.image.load("art/mcguffs.png")
     pygame.transform.scale(player_sprite.subsurface(7,21,160,190),(SQ_SIZE-10,SQ_SIZE-10))
     crown_mg = pygame.transform.scale(mcguff_sprite.subsurface(32,163,56,30),(SQ_SIZE-10,SQ_SIZE-10))
     sceptor_mg = pygame.transform.scale(mcguff_sprite.subsurface(148,121,70,70),(SQ_SIZE-10,SQ_SIZE-10))
@@ -56,15 +60,15 @@ while True:
     pygame.display.set_caption('Mazular')
 #load whole sprite, select coordinates for right one
 #unsure if you all want to keep it this way or crop out the actual tile
-    wall_sprite = pygame.image.load("art/wallfloortiles.bmp")
+    wall_sprite = pygame.image.load("art/wallfloortiles.png")
     wall_texture = wall_sprite.subsurface( 731, 12, 150, 150)
     wall_vertical_texture = pygame.transform.scale( wall_texture, (WALL_HEIGHT, WALL_WIDTH))
     wall_horizontal_texture = pygame.transform.rotate(wall_vertical_texture, 90)
-    fog_sprite = pygame.image.load("art/wallfloortiles.bmp")
+    fog_sprite = pygame.image.load("art/wallfloortiles.png")
 #fog_texture = fog_sprite.subsurface(733,238,190,190)
     fog_texture = fog_sprite.subsurface(15,238,180,180)
     fog_texture = pygame.transform.scale(fog_texture,(SQ_SIZE,SQ_SIZE));
-    floor_sprite = pygame.image.load("art/wallfloortiles.bmp")
+    floor_sprite = pygame.image.load("art/wallfloortiles.png")
     floor_texture = fog_sprite.subsurface(15,15,180,180)
     floor_texture = pygame.transform.scale(floor_texture,(SQ_SIZE+WALL_HEIGHT,SQ_SIZE+WALL_HEIGHT));
 
@@ -97,6 +101,7 @@ while True:
         pygame.display.update()
 
     reset = False
+    pygame.mixer.music.play(-1, 0)
     while not reset:
         for event in pygame.event.get():
             if event.type is QUIT:
@@ -170,6 +175,7 @@ while True:
         for i in range(2):
             for j in range(3):
                 if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
+                    MACGUFFIN_SOUND.play()
                     #MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
                     macguffins_collected[i] = macguffins_collected[i] + j + 1
                     mcguffs[j] = pygame.transform.scale(mcguffs[j],(SQ_SIZE/4,SQ_SIZE/4))
