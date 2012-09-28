@@ -85,112 +85,29 @@ dragon = [dragon_front,dragon_back,dragon_left,dragon_right]
 #half ass menu, also there are two text bits because this function 
 #doesn't recognize new lines.
 
-def load_start_menu() :
-	exitMenu = True
-	load_backstory = False
-	load_instructions = False
-	while (exitMenu ):
-	    text = FONT.render("backstory", True, (102, 205, 170))
-	    textRect = text.get_rect()
-	    textRect.centerx = SURFACE.get_rect().centerx
-	    textRect.centery = SURFACE.get_rect().centery-100
-	    SURFACE.blit(text,textRect)
-	    controls = FONT.render("controls description", True, (102, 205, 170))
-	    textRect2 = controls.get_rect()
-	    textRect2.centerx = SURFACE.get_rect().centerx
-	    textRect2.centery = SURFACE.get_rect().centery
-	    SURFACE.blit(controls,textRect2)
-	    start = FONT.render("press any key to start", True, (102, 205, 170))
-	    textRect3 = start.get_rect()
-	    textRect3.centerx = SURFACE.get_rect().centerx
-	    textRect3.centery = SURFACE.get_rect().centery+100
-	    SURFACE.blit(start,textRect3)
-	    pygame.display.update()
-	    for event in pygame.event.get():
-	    		if event.type == pygame.MOUSEBUTTONDOWN:
-	    			if textRect.collidepoint(pygame.mouse.get_pos() ) : 
-	    				load_backstory = True
-	    				exitMenu = False
-	    			elif textRect2.collidepoint(pygame.mouse.get_pos() ):
-	    				load_instructions = True
-	    				exitMenu = False
-	    			elif textRect3.collidepoint(pygame.mouse.get_pos() ) :
-	    				exitMenu = False
-	    		elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-	    				if event.key == pygame.K_m:
-	    					pass
-	    				else :
-								exitMenu = False
-	else:
-			SURFACE.fill((0,0,0))
-			if load_backstory:
-					load_backstory_menu()
-			elif load_instructions:
-					load_instructions_menu()
-
-def load_backstory_menu() :
-	exitMenu = True
-	load_start = False
-	while (exitMenu ):
-	    text = SMALL_FONT.render(" This is the story:", True, (102, 205, 170))
-	    textRect = text.get_rect()
-	    textRect.centerx = SURFACE.get_rect().centerx
-	    textRect.centery = SURFACE.get_rect().centery-100
-	    SURFACE.blit(text,textRect)
-	    
-	    start = SMALL_FONT.render("Press any key to start the game. Press M to return to main menu", True, (102, 205, 170))
-	    textRect3 = start.get_rect()
-	    textRect3.centerx = SURFACE.get_rect().centerx
-	    textRect3.centery = SURFACE.get_rect().centery+100
-	    SURFACE.blit(start,textRect3)
-	    pygame.display.update()
-	    for event in pygame.event.get():
-	    		if event.type == pygame.MOUSEBUTTONDOWN and textRect3.collidepoint(pygame.mouse.get_pos() ) :
-	    				exitMenu = False
-	    		elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-	    				if event.key == pygame.K_m:
-	    					load_start = True
-	    					exitMenu = False
-	    				else :
-								exitMenu = False
-	else:
-			SURFACE.fill((0,0,0))
-			if load_start:
-					load_start_menu()
-			
-
-def load_instructions_menu() :
-	exitMenu = True
-	load_start = False
-	while (exitMenu ):
-	    text = SMALL_FONT.render(" Left player move with WASD, right player move with arrow keys.", True, (102, 205, 170))
-	    textRect = text.get_rect()
-	    textRect.centerx = SURFACE.get_rect().centerx
-	    textRect.centery = SURFACE.get_rect().centery-100
-	    SURFACE.blit(text,textRect)
-	    
-	    start = SMALL_FONT.render("Press any key to start the game. Press M to return to main menu", True, (102, 205, 170))
-	    textRect3 = start.get_rect()
-	    textRect3.centerx = SURFACE.get_rect().centerx
-	    textRect3.centery = SURFACE.get_rect().centery+100
-	    SURFACE.blit(start,textRect3)
-	    pygame.display.update()
-	    for event in pygame.event.get():
-	    		if event.type == pygame.MOUSEBUTTONDOWN and textRect3.collidepoint(pygame.mouse.get_pos() ) :
-	    				exitMenu = False
-	    		elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-	    				if event.key == pygame.K_m:
-	    					load_start = True
-	    					exitMenu = False
-	    				else :
-								exitMenu = False
-	else:
-			SURFACE.fill((0,0,0))
-			if load_start:
-					load_start_menu()
-
-							
-load_start_menu()
+while not pygame.event.peek(KEYDOWN):
+	text = FONT.render("Two ghosts are trying to inhabit a king's body", True, (102, 205, 170))
+	textRect = text.get_rect()
+	textRect.centerx = SURFACE.get_rect().centerx
+	textRect.centery = SURFACE.get_rect().centery-150
+	SURFACE.blit(text,textRect)
+	text2 = pygame.transform.scale(FONT.render("but to do so they must collect the royal sceptor and crown", True, (102, 205, 170)), (650,50))
+	textRect4 = text2.get_rect()
+	textRect4.centerx = SURFACE.get_rect().centerx
+	textRect4.centery = SURFACE.get_rect().centery-75
+	SURFACE.blit(text2,textRect4)
+	controls = pygame.transform.scale(FONT.render("wasd control the left player, arrow keys control the right player, esc to exit", True, (102, 205, 170)), (700,50))
+	textRect2 = controls.get_rect()
+	textRect2.centerx = SURFACE.get_rect().centerx
+	textRect2.centery = SURFACE.get_rect().centery+75
+	SURFACE.blit(controls,textRect2)
+	start = FONT.render("press any key to start", True, (102, 205, 170))
+	textRect3 = start.get_rect()
+	textRect3.centerx = SURFACE.get_rect().centerx
+	textRect3.centery = SURFACE.get_rect().centery+150
+	SURFACE.blit(start,textRect3)
+	pygame.display.update()
+	   
 
 while True:
 		for event in pygame.event.get():
