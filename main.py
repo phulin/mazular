@@ -5,6 +5,7 @@ from maze import draw_maze
 from player import Player
 from pygame.locals import *
 import pygame.mixer
+import random
 
 pygame.init()
 pygame.mixer.init()
@@ -46,7 +47,8 @@ while True:
 
     WALL_HEIGHT = 10
     WALL_WIDTH = SQ_SIZE + WALL_HEIGHT
-    MAZE = maze_from_file("bigmaze.txt")
+    maze_name = "bigmaze" + str(random.randint(0,4))+".txt"
+    MAZE = maze_from_file(maze_name)
     SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * MAZE.height()+SQ_SIZE/10))
     PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM, 'Player ' + str(i))
             for i in range(len(MAZE.starting_locations))]
@@ -195,6 +197,7 @@ while True:
 
         if macguffins_collected[0] > 3:
             WIN_SOUND.play()
+            pygame.mixer.music.stop()
             text = FONT.render('Purple Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
@@ -235,6 +238,7 @@ while True:
             break
         elif macguffins_collected[1] > 3:
             WIN_SOUND.play()
+            pygame.mixer.music.stop()
             text = FONT.render('Yellow Victory!', True, (122, 122, 122))
             textRect = text.get_rect()
             textRect.centerx = SURFACE.get_rect().centerx
