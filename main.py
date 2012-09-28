@@ -45,6 +45,7 @@ SURFACE = pygame.display.set_mode((SQ_SIZE * MAZE.width()+SQ_SIZE/10, SQ_SIZE * 
 PLAYERS = [Player([x for x in MAZE.starting_locations[i]], i, Maze.BOTTOM, 'Player ' + str(i))
 					 for i in range(len(MAZE.starting_locations))]
 MAZE.CREATURES = [player for player in PLAYERS]
+macguffins_collected = [0,0]
 
 FONT = pygame.font.SysFont(None, 48)
 
@@ -140,7 +141,6 @@ while True:
 				position = player.position
 				# IMPORTANT: MAZE and pygame use reversed coordinates, so we have to flip here.
 				screen_position = (int(SQ_SIZE * (position[1] + 0.2)), int(SQ_SIZE * (position[0] + 0.2)))
-				#pygame.draw.circle(SURFACE, player.color, screen_position, int(SQ_SIZE * 0.3))
 				if player.direction==Maze.BOTTOM:
 					index = 0
 				elif player.direction==Maze.TOP:
@@ -159,23 +159,15 @@ while True:
                     screen_position = (int(SQ_SIZE * (position[1] + 0.55)), int(SQ_SIZE * (position[0] + 0.6)))
                     pygame.draw.circle(SURFACE, (122,122,122), screen_position, int(SQ_SIZE * 0.3))
 		pygame.display.update()
-                
 
-		#logic that draws the walls
-		'''
-		for i in range(MAZE.height()):
-			for j in range(MAZE.width()):
-				if (MAZE.walls(i,j)[MAZE.TOP]) :
-					SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
-				if (MAZE.walls(i,j)[MAZE.BOTTOM]) :
-					SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,(i+1)*SQ_SIZE,0,0))
-				if (MAZE.walls(i,j)[MAZE.RIGHT]) :
-					SURFACE.blit(wall_vertical_texture, ((j+1)*SQ_SIZE,i*SQ_SIZE,0,0))
-				if (MAZE.walls(i,j)[MAZE.LEFT]) :
-					SURFACE.blit(wall_vertical_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
-		pygame.display.update()
-		'''
                 #Win condition
+                for i in range(2):
+                    for j in range(2):
+                        if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
+                            MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] = 3
+                            macguffins_collected[i] = macguffins_collected[i] + 1
+                    
+                    
                 if PLAYERS[0].position==MAZE.starting_locations[1]:
                             text = FONT.render('Red Victory!', True, (122, 122, 122))
                             textRect = text.get_rect()
