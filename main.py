@@ -74,7 +74,7 @@ while True:
         textRect.centerx = SURFACE.get_rect().centerx
         textRect.centery = SURFACE.get_rect().centery-150
         SURFACE.blit(text,textRect)
-        text2 = pygame.transform.scale(FONT.render("but to do so they must collect the royal sceptor and crown", True, (102, 205, 170)), (650,50))
+        text2 = pygame.transform.scale(FONT.render("but to do so they must collect a royal scepter or crown", True, (102, 205, 170)), (650,50))
         textRect4 = text2.get_rect()
         textRect4.centerx = SURFACE.get_rect().centerx
         textRect4.centery = SURFACE.get_rect().centery-75
