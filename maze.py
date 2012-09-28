@@ -37,7 +37,7 @@ def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wa
                     if(int(MAZE.macguffin_locations[i][j]) > 5):
                         macg_temp =int( MAZE.macguffin_locations[i][j]) - 5
                         for which_guf in range(3):
-                            print macg_temp
+                            
                             if (macg_temp - 4 >= 0):
                                 SURFACE.blit(mcguffs[2], (j*SQ_SIZE+mac_small[2],i*SQ_SIZE+10+20,0,0))
                                 macg_temp -= 4

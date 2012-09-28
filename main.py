@@ -180,13 +180,14 @@ while True:
             for j in range(3):
                 if not(j ==2 and macguffins_collected[i] == 0):
                     if MAZE.macguffin_locations[PLAYERS[i].position[0]][PLAYERS[i].position[1]] == str(j):
+                           MACGUFFIN_SOUND.play()
                            if macguffins_collected[i] == 0:
                                    macguffins_collected[i]+= macg_const
                            
                            macguffins_collected[i] = macguffins_collected[i] + 2**j
-                           
                            mcguffs[j] = pygame.transform.scale(mcguffs[j],(SQ_SIZE/4,SQ_SIZE/4))
                            mac_small[j] = 20 + 10*j
+                           
 
         for i in range(2):
            if (macguffins_collected[i] >= 1) :
