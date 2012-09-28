@@ -33,12 +33,22 @@ def draw_maze_single_player(SQ_SIZE,MAZE,SURFACE,player,wall_vertical_texture,wa
         for j in range(player.position[1]-offset, player.position[1] + 1+offset):       
             if(i >=0 and j >=0 and i < MAZE.height() and j < MAZE.width()):   
                 if (MAZE.macguffin_locations[i][j] != 3) :
-                    if(MAZE.macguffin_locations[i][j] == 2):
-                        for which_guf in range(2):
-                            SURFACE.blit(mcguffs[which_guf], (j*SQ_SIZE+5+mac_small[which_guf]*which_guf + ((which_guf+1)%2)*mac_small[which_guf]/2,i*SQ_SIZE+10+mac_small[which_guf],0,0))
-                    else:
+                    
+                    if(int(MAZE.macguffin_locations[i][j]) > 5):
+                        macg_temp =int( MAZE.macguffin_locations[i][j]) - 5
+                        for which_guf in range(3):
+                            if (macg_temp - 4 >= 0):
+                                SURFACE.blit(mcguffs[2], (j*SQ_SIZE+mac_small[2],i*SQ_SIZE+10+20,0,0))
+                                macg_temp -= 4
+                            if (macg_temp - 2 >= 0):
+                                SURFACE.blit(mcguffs[1], (j*SQ_SIZE+mac_small[1],i*SQ_SIZE+10+20,0,0))
+                                macg_temp -= 2
+                            if (macg_temp - 1 >= 0):
+                                SURFACE.blit(mcguffs[0], (j*SQ_SIZE+mac_small[0],i*SQ_SIZE+10+20,0,0))        
+                    if(int(MAZE.macguffin_locations[i][j]) < 3):
+                    
                         which_guf = int(MAZE.macguffin_locations[i][j])
-                        SURFACE.blit(mcguffs[which_guf], (j*SQ_SIZE+10+mac_small[which_guf]*which_guf,i*SQ_SIZE+10+mac_small[which_guf],0,0))
+                        SURFACE.blit(mcguffs[which_guf], (j*SQ_SIZE+10,i*SQ_SIZE+10,0,0))
                 if (MAZE.walls(i,j)[MAZE.TOP]) :
                     SURFACE.blit(wall_horizontal_texture, (j*SQ_SIZE,i*SQ_SIZE,0,0))
                 if (MAZE.walls(i,j)[MAZE.BOTTOM]) : 
@@ -72,8 +82,8 @@ class Maze:
     LEFT = 3
 
     horiz_regex = re.compile(r"\+([- ]\+)+$")
-    vert_regex = re.compile(r"\|([ *@01][| ])+$")
-    macguf_regex = re.compile(r"[01]")
+    vert_regex = re.compile(r"\|([ *@012][| ])+$")
+    macguf_regex = re.compile(r"[012]")
     powerp_regex = re.compile(r"@")
 
     # Takes string representation of maze, as outlined above
